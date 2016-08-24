@@ -10,5 +10,6 @@
 <body>
 <c:out value="${param.name}" />
 <c:out value="${param.age}"/>
+<c:out value="${header.name}"/>
 </body>
 </html>
