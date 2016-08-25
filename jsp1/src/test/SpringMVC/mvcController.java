@@ -16,6 +16,7 @@ public class mvcController {
 	@RequestMapping("/hello")
 	public String hello() {
 		matchService.method1();
+		matchService.method2();
 		return "jsp/n2.jsp";
 	}
 }
