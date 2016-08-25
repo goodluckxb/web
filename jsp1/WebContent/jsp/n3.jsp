@@ -15,5 +15,6 @@
 <c:forEach var="item" items="${fixedIncomes }">
 	${item.name }<br>
 </c:forEach>
+${count }
 </body>
 </html>
