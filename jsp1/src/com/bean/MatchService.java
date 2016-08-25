@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dao.select;
+import com.entry.FixedIncome;
 
 @Service
 public class MatchService {
@@ -18,5 +19,10 @@ public class MatchService {
 	
 	public void method2() {
 		System.out.println(select.select1());
+	}
+	
+	public void method3() {
+		FixedIncome fixedIncome=select.selectfix();
+		System.out.println(fixedIncome.getName());
 	}
 }

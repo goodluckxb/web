@@ -17,6 +17,7 @@ public class mvcController {
 	public String hello() {
 		matchService.method1();
 		matchService.method2();
+		matchService.method3();
 		return "jsp/n2.jsp";
 	}
 }
