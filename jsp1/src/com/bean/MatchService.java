@@ -1,5 +1,7 @@
 package com.bean;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,18 +13,8 @@ public class MatchService {
 	@Autowired
 	private select select;
 
-	public void method1() {
-		for (int i = 0; i < 100; i++) {
-			System.out.println(i+",");
-		}
-	}
-	
-	public void method2() {
-		System.out.println(select.select1());
-	}
-	
-	public void method3() {
-		FixedIncome fixedIncome=select.selectfix();
-		System.out.println(fixedIncome.getName());
+	public List<FixedIncome> method3() {
+		List<FixedIncome> fixedIncomes=select.selectfix();
+		return fixedIncomes;
 	}
 }

@@ -1,13 +1,13 @@
 package com.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Select;
 
 import com.entry.FixedIncome;
 
 public interface select {
-	@Select("select 1")
-	public Integer select1();
 	
-	@Select("select * from TAIJS_FIXED_INCOME where id=1")
-	public FixedIncome selectfix();
+	@Select("select * from TAIJS_FIXED_INCOME limit 1,10")
+	public List<FixedIncome> selectfix();
 }
