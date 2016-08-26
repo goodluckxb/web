@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd"
+	default-lazy-init="true">
+
+	<context:component-scan base-package="com.taijs" />
+	<tx:annotation-driven/>
+	
+	<bean id="propertyConfigurerBase"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true"></property>
+		<property name="locations">
+			<list>
+				<value>classpath*:**/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>acco_error</value>
+				<value>backcode_error</value>
+				<value>capital_error</value>
+				<value>trade_error</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- new -->
+	<!-- new -->
+	<!-- new -->
+
+	<!-- <bean id="newDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+		destroy-method="close"> <property name="driverClass" value="${db.mysql.dataSource.driverClassName}" 
+		/> <property name="jdbcUrl" value="${db.mysql.dataSource.url}" /> <property 
+		name="user" value="${db.mysql.dataSource.username}" /> <property name="password" 
+		value="${db.mysql.dataSource.password}" /> <property name="maxIdleTime" value="120" 
+		/> <property name="acquireIncrement" value="3" /> <property name="maxStatements" 
+		value="100" /> <property name="idleConnectionTestPeriod" value="60" /> <property 
+		name="acquireRetryAttempts" value="30" /> <property name="checkoutTimeout" 
+		value="5000" /> <property name="preferredTestQuery" value="select 1" /> </bean> -->
+
+	<bean id="newDataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+	</bean>
+
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="poolName" value="springHikariCP" />
+		<property name="driverClassName" value="${db.mysql.dataSource.driverClassName}" />
+		<property name="jdbcUrl" value="${db.mysql.dataSource.url}" />
+		<property name="username" value="${db.mysql.dataSource.username}" />
+		<property name="password" value="${db.mysql.dataSource.password}" />
+		<property name="minimumIdle" value="${db.mysql.minIdle}" />
+		<property name="maximumPoolSize" value="${db.mysql.maxPoolSize}" />
+		<property name="connectionInitSql" value="set names utf8"/>
+		<property name="dataSourceProperties">
+			<props>
+				<prop key="cachePrepStmts">true</prop>
+				<prop key="prepStmtCacheSize">250</prop>
+				<prop key="prepStmtCacheSqlLimit">2048</prop>
+				<prop key="useServerPrepStmts">true</prop>
+				<prop key="characterEncoding">utf8</prop>
+				<prop key="useUnicode">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- MyBatis配置 -->
+	<bean id="newSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="newDataSource" />
+		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+		<property name="typeAliasesPackage" value="com.taijs.domain" />
+		<!-- 显式指定Mapper文件位置 -->
+		
+		<property name="mapperLocations" >
+		<list>
+			<value>classpath:/META-INF/mybatis/*Mapper.xml </value>
+		    <value>classpath:/META-INF/mybatis/datafile/*Mapper.xml </value> 
+			<value>classpath:/META-INF/mybatisV101/*Mapper.xml</value>
+			<value>classpath:/META-INF/mybatis2016/*Mapper.xml</value>
+            <value>classpath:/META-INF/inv_adv/*Mapper.xml </value>
+		</list>
+		
+		</property>
+	</bean>
+
+	<!-- 事务管理器配置, 使用jdbc事务 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="newDataSource" />
+	</bean>
+
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.taijs.adapter.*.mybatis*;cn.datek.fund.investment.advisor.dao" />
+		<property name="sqlSessionFactoryBeanName" value="newSqlSessionFactory" />
+	</bean>
+
+	<!-- jy -->
+	<!-- jy -->
+	<!-- jy -->
+
+	<!-- <bean id="juyuanDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+		destroy-method="close"> <property name="driverClass" value="${db.mysql.dataSource.juyuan.driverClassName}" 
+		/> <property name="jdbcUrl" value="${db.mysql.dataSource.juyuan.url}" /> 
+		<property name="user" value="${db.mysql.dataSource.juyuan.username}" /> <property 
+		name="password" value="${db.mysql.dataSource.juyuan.password}" /> <property 
+		name="maxIdleTime" value="120" /> <property name="acquireIncrement" value="3" 
+		/> <property name="maxStatements" value="100" /> <property name="idleConnectionTestPeriod" 
+		value="60" /> <property name="acquireRetryAttempts" value="30" /> <property 
+		name="checkoutTimeout" value="5000" /> <property name="preferredTestQuery" 
+		value="select 1" /> </bean> -->
+
+
+	<bean id="juyuanDataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+		<constructor-arg ref="jyHikariConfig" />
+	</bean>
+
+	<bean id="jyHikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="poolName" value="springJyHikariCP" />
+		<property name="driverClassName"
+			value="${db.mysql.dataSource.juyuan.driverClassName}" />
+		<property name="jdbcUrl" value="${db.mysql.dataSource.juyuan.url}" />
+		<property name="username" value="${db.mysql.dataSource.juyuan.username}" />
+		<property name="password" value="${db.mysql.dataSource.juyuan.password}" />
+		<property name="minimumIdle" value="${db.mysql.minIdle}" />
+		<property name="maximumPoolSize" value="${db.mysql.maxPoolSize}" />
+		<property name="dataSourceProperties">
+			<props>
+				<prop key="cachePrepStmts">true</prop>
+				<prop key="prepStmtCacheSize">250</prop>
+				<prop key="prepStmtCacheSqlLimit">2048</prop>
+				<prop key="useServerPrepStmts">true</prop>
+				<prop key="characterEncoding">utf8</prop>
+				<prop key="useUnicode">true</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id="juyuanSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="juyuanDataSource" />
+		<!-- 显式指定Mapper文件位置 -->
+        <property name="mapperLocations" >
+            <list>
+                <value>classpath:/META-INF/juyuan/*Mapper.xml</value>
+                <value>classpath:/META-INF/inv_juyuan/*Mapper.xml </value> 
+            </list>
+        </property>
+	</bean>
+
+	<bean id="jyTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="juyuanDataSource" />
+	</bean>
+
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.taijs.adapter.persistence.juyuan.batch;cn.datek.fund.investment.advisor.jy.dao" />
+		<property name="sqlSessionFactoryBeanName" value="juyuanSqlSessionFactory" />
+	</bean>
+
+	<!-- <bean id="newSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"> 
+		<constructor-arg index="0" ref="newSqlSessionFactory" /> </bean> -->
+
+
+
+
+</beans>
