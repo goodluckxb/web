@@ -60,10 +60,7 @@ public class mvcController {
 	
 	@PostConstruct
 	private void cons(){
-		for (int i = 0; i < 100; i++) {
-			System.out.println(i);
-			System.out.println(name);
-		}
+
 	}
 	
 }

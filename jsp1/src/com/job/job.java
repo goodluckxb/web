@@ -8,12 +8,12 @@ public class job  {
 	
 	@Scheduled(cron = "0 * * * * ?")
 	public void method() {
-		System.out.println("-----------------helloworld-------------------");
+
 	}
 
 	@Scheduled(fixedDelay =1000)
 	public void method2() {
-		System.out.println("-----------------helloworld2-------------------");
+
 	}
 
 }
