@@ -11,7 +11,6 @@ public class job  {
 		System.out.println("-----------------helloworld-------------------");
 	}
 
-	
 	@Scheduled(fixedDelay =1000)
 	public void method2() {
 		System.out.println("-----------------helloworld2-------------------");
