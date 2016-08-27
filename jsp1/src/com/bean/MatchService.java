@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dao.select;
+import com.entry.DepartMent;
 import com.entry.FixedIncome;
 
 @Service
@@ -16,5 +17,9 @@ public class MatchService {
 	public List<FixedIncome> method3() {
 		List<FixedIncome> fixedIncomes=select.selectfix();
 		return fixedIncomes;
+	}
+	
+	public DepartMent method1() {
+		return select.findDepartment();
 	}
 }

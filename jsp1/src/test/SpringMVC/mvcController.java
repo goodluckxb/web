@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bean.MatchService;
+import com.entry.DepartMent;
 import com.entry.FixedIncome;
 
 @Controller
@@ -55,6 +56,15 @@ public class mvcController {
 		ObjectMapper mapper=new ObjectMapper();
 		String res=mapper.writeValueAsString(map);
 		return res;
+	}
+	 
+	@RequestMapping(value="/dep{type}")
+	public void dep(Model model,HttpServletRequest request,@PathVariable("type")String type) throws JsonGenerationException, JsonMappingException, IOException {
+		System.out.println(type);
+		int count=request.getSession().getAttribute("count")==null?0:Integer.parseInt(request.getSession().getAttribute("count").toString());
+		request.getSession().setAttribute("count", count+1);
+		DepartMent dep=matchService.method1();
+
 	}
 	
 	
