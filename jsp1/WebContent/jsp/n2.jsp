@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>n2.jsp</title>
 </head>
 <body>
 <a href="<c:url value="/jsp/n1.jsp"></c:url>">n1.jsp</a>
