@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bean.MatchService;
 import com.entry.DepartMent;
 import com.entry.FixedIncome;
+import com.entry.User;
 
 @Controller
 @RequestMapping("/a")
@@ -58,15 +59,23 @@ public class mvcController {
 		return res;
 	}
 	 
-	@RequestMapping(value="/dep{type}")
-	public void dep(Model model,HttpServletRequest request,@PathVariable("type")String type) throws JsonGenerationException, JsonMappingException, IOException {
-		System.out.println(type);
+	@RequestMapping(value="/queryUserInfo")
+	public String dep(Model model,HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException {
 		int count=request.getSession().getAttribute("count")==null?0:Integer.parseInt(request.getSession().getAttribute("count").toString());
-		request.getSession().setAttribute("count", count+1);
-		DepartMent dep=matchService.method1();
+		List<User> lsUsers=matchService.method1();
+		model.addAttribute("lsUsers",lsUsers);
+		return "n2";
 
 	}
 	
+	
+	@RequestMapping(value="/num")
+	public String updateNum(Model model,HttpServletRequest request) throws JsonGenerationException, JsonMappingException, IOException {
+		int count=matchService.updatePhone();
+		model.addAttribute("count",count);
+		return "n2";
+
+	}
 	
 	@PostConstruct
 	private void cons(){
